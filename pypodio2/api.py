@@ -23,6 +23,19 @@ def OAuthClient(
             user_agent=user_agent
         )
 
+def OAuthWebClient(
+    resp,
+    user_agent=None,
+    domain="https://api.podio.com",
+
+):
+    auth = transport.OAuthToken(resp)
+    return AuthorizingClient(
+            domain,
+            auth,
+            user_agent=user_agent
+        )
+
 def AuthorizingClient(
     domain,
     auth,

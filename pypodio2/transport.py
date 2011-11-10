@@ -21,6 +21,8 @@ class OAuthToken(object):
     def to_headers(self):
         return {'authorization':"OAuth2 %s" % self.access_token}
 
+    def __call__(self, *args, **kwargs):
+        return self.to_headers()
 
 class OAuthAuthorization(object):
     """

@@ -1,4 +1,5 @@
 import json
+import urllib
 class Area(object):
     'Represents a Podio Area'
     def __init__(self, transport, *args, **kwargs):
@@ -314,3 +315,16 @@ class Files(Area):
         '''Returns raw file as string. Pass to a file object'''
         raw_handler = lambda resp, data: data
         return self.transport.GET(url='/file/%d/raw' % file_id, handler=raw_handler)
+
+class Contact(Area):
+    def __init__(self, *args, **kwargs):
+        super(Contact, self).__init__(*args, **kwargs)
+
+    def totals(self, **kwargs):
+        '''Returns total number of contacts'''
+        return self.transport.GET(url='/contact/totals/')
+
+    def list(self, **kwargs):
+        '''Returns contacts'''
+        params = urllib.urlencode(kwargs)
+        return self.transport.GET(url='/contact/?%s' % params)
