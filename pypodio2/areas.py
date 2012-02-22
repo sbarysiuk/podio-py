@@ -172,6 +172,15 @@ class Status(Area):
             body = attributes,
             type = 'application/json'
         )
+
+
+class Organization(Area):
+    def __init__(self, *args, **kwargs):
+        super(Organization, self).__init__(*args, **kwargs)
+    
+    def get_organizations(self):
+        return self.transport.GET(url = '/org/')
+
     
 class Space(Area):
     def __init__(self, *args, **kwargs):

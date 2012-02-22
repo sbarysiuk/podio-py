@@ -80,7 +80,7 @@ class HttpTransport(object):
         self._attribute_stack = []
         self._method = "GET"
         self._posts = []
-        self._http = httplib2.Http()
+        self._http = httplib2.Http(disable_ssl_certificate_validation=True)
         self._params = {}
         self._url_template = '%(domain)s/%(generated_url)s'
         self._stack_collapser = "/".join
