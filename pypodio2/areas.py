@@ -10,9 +10,38 @@ class Area(object):
             return str(item_id)
         return item_id
 
+
+class Integration(Area):
+    def __init__(self, *args, **kwargs):
+        super(Integration, self).__init__(*args, **kwargs)
+        
+    def create(self, app_id, attributes):
+        if type(attributes) != dict:
+            return ApiErrorException('Must be of type dict')
+
+        attributes = json.dumps(attributes)
+        return self.transport.POST(
+            url = '/integration/%d' % app_id,
+            body = attributes,
+            type = 'application/json'
+            )
+
+    def update_mapping(self, app_id, mapping):
+        if type(mapping) != dict:
+            return ApiErrorException('Must be of type dict')
+
+        mapping = json.dumps(mapping)
+        return self.transport.PUT(
+            url = ' /integration/%d/mapping' % app_id,
+            body = mapping,
+            type = 'application/json'
+            )
+
+
 class Item(Area):
     def __init__(self, *args, **kwargs):
         super(Item, self).__init__(*args, **kwargs)
+            
     def find(self, item_id, basic=False, **kwargs):
         '''
         Get item
@@ -51,6 +80,18 @@ class Item(Area):
             body = attributes,
             type = 'application/json'
     )
+
+    def update(self, item_id, attributes):
+        if type(attributes) != dict:
+            return ApiErrorException('Must be of type dict')
+        attributes = json.dumps(attributes)
+        
+        return self.transport.PUT(
+            url = '/item/%d/' % item_id,
+            body = attributes,
+            type = 'application/json'
+            )
+
 
     def delete(self, item_id):
         return self.transport.DELETE(url = '/item/%d' % item_id, handler=lambda x,y: None)
@@ -337,3 +378,13 @@ class Contact(Area):
         '''Returns contacts'''
         params = urllib.urlencode(kwargs)
         return self.transport.GET(url='/contact/?%s' % params)
+
+    def create(self, space_id, **kwargs):
+        '''Creates contact and returns {profile_id} '''
+        attributes = json.dumps(attributes)
+        return self.transport.POST(
+            url = '/contact/space/%d/' % space_id,
+            body = attributes,
+            type = 'application/json'
+        )
+
