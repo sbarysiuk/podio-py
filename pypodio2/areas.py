@@ -32,7 +32,7 @@ class Integration(Area):
 
         mapping = json.dumps(mapping)
         return self.transport.PUT(
-            url = ' /integration/%d/mapping' % app_id,
+            url = '/integration/%d/mapping' % app_id,
             body = mapping,
             type = 'application/json'
             )
